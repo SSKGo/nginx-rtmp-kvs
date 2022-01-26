@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SecretPermission0",
+      "Effect": "Allow",
+      "Action": ["ssm:GetParameters"],
+      "Resource": [
+        "arn:aws:ssm:${REGION}:${AWS_ACCOUNT_ID}:parameter/${SSM_AWS_ACCESS_KEY}",
+        "arn:aws:ssm:${REGION}:${AWS_ACCOUNT_ID}:parameter/${SSM_AWS_SECRET_KEY}"
+      ]
+    }
+  ]
+}
