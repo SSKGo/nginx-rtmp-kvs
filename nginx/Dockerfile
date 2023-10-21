@@ -104,7 +104,7 @@ RUN set -ex \
     && apt-get install -y cmake build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev \
     && apt-get install -y libssl-dev libcurl4-openssl-dev liblog4cplus-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools \
     && apt-get install -y m4 git jq \
-    if [ -z $KVS_SDK_VERSION ]; then \
+    && if [ -z $KVS_SDK_VERSION ]; then \
     cd /opt ;\
     git clone https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp.git; \
     else \
@@ -118,7 +118,7 @@ RUN set -ex \
     && cd "amazon-kinesis-video-streams-producer-sdk-cpp/build" \
     && cmake -DBUILD_GSTREAMER_PLUGIN=TRUE .. \
     && make \
-    && chown nginx:nginx /opt/kvs-streamer.sh \
+    && chown nobody:nogroup /opt/kvs-streamer.sh \
     && chmod u+x /opt/kvs-streamer.sh \
     && mkdir -p /var/log/nginx
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf

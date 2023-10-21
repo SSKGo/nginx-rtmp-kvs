@@ -117,7 +117,7 @@ export IMAGE_NAME="nginx-rtmp-kvs"
 export IMAGE_TAG="latest"
 docker-compose up --build -d nginx
 docker-compose logs -f
-docker-compose exec -it [container ID] bin/bash
+docker exec -it [container ID] bin/bash
 ```
 
 ## Access containers running on Fargate through session manager

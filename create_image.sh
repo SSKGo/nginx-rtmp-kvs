@@ -54,7 +54,8 @@ while getopts arntbpih-: opt; do
 done
 shift $((OPTIND - 1))
 
-if [ ! "$BUILD" ] && [ ! "$PUSH" ] ] ; then
+set -e
+if ! ${BUILD} && ! ${PUSH} ; then
   echo "Error: At least -b (build) or -p (push) option is required." 1>&2
   exit 1
 fi
@@ -86,10 +87,8 @@ fi
 echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
 echo "REGION: $REGION"
 
-set -ex
-
 # Build image
-if "$BUILD"; then
+if "${BUILD}"; then
   echo "IMAGE_NAME: $IMAGE_NAME"
   echo "IMAGE_TAG: $IMAGE_TAG"
   # Pass variables to childen
@@ -100,7 +99,7 @@ fi
 
 # Push image to ECR
 # Reference: https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/docker-push-ecr-image.html
-if "$PUSH"; then
+if "${PUSH}"; then
   aws ecr get-login-password | docker login --username AWS --password-stdin "https://${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
   docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${IMAGE_NAME}:${IMAGE_TAG}"
   docker push "${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${IMAGE_NAME}:${IMAGE_TAG}"
